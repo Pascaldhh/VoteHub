@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+bin
+obj
+debug
+node_modules

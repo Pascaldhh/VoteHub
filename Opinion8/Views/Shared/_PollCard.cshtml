@@ -1,0 +1,25 @@
+<template id="poll-card-template">
+    <div class="dark:bg-white dark:text-black shadow-[0px_0px_10px_0px_rgb(0,0,0,.2)] px-6 py-4 rounded-md">
+        <div class="flex flex-col">
+            <h2><slot name="question"></slot></h2>
+            <ul>
+                <slot name="options"></slot>
+            </ul>
+            <div class="flex items-end mt-2 text-gray-600">
+                <p>Total voters: <slot name="voters"></slot></p>
+                <div class="ml-auto">
+                    @if (User.IsInRole("Voter") || User.IsInRole("Admin"))
+                    {
+                        <button id="vote" class="bg-blue-600 text-white py-1 px-4 rounded hover:bg-blue-400 transition-colors">Vote</button>
+                    }
+                    else
+                    {
+                        <p class="text-gray-700 font-bold flex gap-x-2">
+                            <svg class="w-5 h-5 mt-[.5px]" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/></svg> Register to vote
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
