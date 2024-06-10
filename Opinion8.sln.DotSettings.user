@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=afef1163_002Df5c7_002D49fb_002Dba07_002D907f1325e9b4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetAll_User_ReturnsPollWithCorrectHasVoted" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::5F723347-1873-4FE1-A9E2-563BF4AD4D53::net8.0::Opinion8.Tests.PollServiceTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::5F723347-1873-4FE1-A9E2-563BF4AD4D53::net8.0::Opinion8.Tests.PollOptionServiceTests.SaveFromString_stringCommaSeperatedPollOptions_ReturnsListPollOptions&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::5F723347-1873-4FE1-A9E2-563BF4AD4D53::net8.0::Opinion8.Tests.PollOptionServiceTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

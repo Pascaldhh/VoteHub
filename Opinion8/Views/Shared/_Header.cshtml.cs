@@ -4,8 +4,5 @@ namespace Opinion8.Views.Shared;
 
 public class _Header : PageModel
 {
-    public void OnGet()
-    {
-        
-    }
+    public void OnGet() { }
 }

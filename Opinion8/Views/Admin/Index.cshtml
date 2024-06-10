@@ -22,7 +22,7 @@
         else
         {
             <div class="flex justify-end mt-8">
-                <a asp-controller="Admin" asp-action="Create" class="px-4 py-1 bg-green-500 rounded hover:bg-green-600 transition-colors">Create</a>
+                <a asp-controller="Admin" asp-action="Create" id="create-poll" class="px-4 py-1 bg-green-500 rounded hover:bg-green-600 transition-colors">Create</a>
             </div>
             <table class="w-full text-left mt-4 overflow-x-auto">
                 <thead>
@@ -39,8 +39,8 @@
                     <tr class="border-b">
                         <td class="py-2">@poll.Question</td>
                         <td class="py-2">@string.Join(", ", poll.Options.Select(option => option.Name))</td>
-                        <td class="py-2">@poll.Voters</td>
-                        <td class="py-2"><span class="text-blue-400 hover:underline cursor-pointer">Edit</span> | <span class="text-blue-400 hover:underline cursor-pointer">Details</span> | <a asp-controller="Admin" asp-action="Delete" asp-route-id="@poll.Id" class="text-blue-400 hover:underline cursor-pointer">Delete</a></td>
+                        <td class="py-2">@poll.VoteCount</td>
+                        <td class="py-2"><a asp-controller="Admin" asp-action="Edit" asp-route-pollId="@poll.Id" class="text-blue-400 hover:underline cursor-pointer">Edit</a> | <span class="text-blue-400 hover:underline cursor-pointer">Details</span> | <a asp-controller="Admin" asp-action="Delete" asp-route-id="@poll.Id" class="text-blue-400 hover:underline cursor-pointer">Delete</a></td>
                     </tr>
                 }
                 </tbody>

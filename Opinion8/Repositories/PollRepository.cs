@@ -1,17 +1,22 @@
 using Microsoft.EntityFrameworkCore;
 using Opinion8.Data;
+using Opinion8.Interfaces;
 using Opinion8.Models;
 
 namespace Opinion8.Repositories;
 
-public class PollRepository(ApplicationDbContext applicationDbContext)
+public class PollRepository(ApplicationDbContext applicationDbContext) : IPollRepository
 {
     public Poll? GetById(int id) =>
         applicationDbContext
             .Polls.Include(poll => poll.Options)
+            .ThenInclude(option => option.Votes)
             .FirstOrDefault(poll => poll.Id == id);
 
-    public IEnumerable<Poll> GetAll() => applicationDbContext.Polls.Include(poll => poll.Options);
+    public IEnumerable<Poll> GetAll() =>
+        applicationDbContext
+            .Polls.Include(poll => poll.Options)
+            .ThenInclude(option => option.Votes);
 
     public void Save(Poll poll)
     {

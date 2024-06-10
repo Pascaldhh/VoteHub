@@ -11,8 +11,8 @@ using Opinion8.Data;
 namespace Opinion8.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240607113928_Voters")]
-    partial class Voters
+    [Migration("20240609114811_PollVote")]
+    partial class PollVote
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,9 +227,6 @@ namespace Opinion8.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Voters")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.ToTable("Polls");
@@ -254,6 +251,26 @@ namespace Opinion8.Data.Migrations
                     b.HasIndex("PollId");
 
                     b.ToTable("PollOptions");
+                });
+
+            modelBuilder.Entity("Opinion8.Models.PollVote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PollOptionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PollOptionId");
+
+                    b.ToTable("PollVotes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -318,9 +335,25 @@ namespace Opinion8.Data.Migrations
                     b.Navigation("Poll");
                 });
 
+            modelBuilder.Entity("Opinion8.Models.PollVote", b =>
+                {
+                    b.HasOne("Opinion8.Models.PollOption", "PollOption")
+                        .WithMany("Votes")
+                        .HasForeignKey("PollOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PollOption");
+                });
+
             modelBuilder.Entity("Opinion8.Models.Poll", b =>
                 {
                     b.Navigation("Options");
+                });
+
+            modelBuilder.Entity("Opinion8.Models.PollOption", b =>
+                {
+                    b.Navigation("Votes");
                 });
 #pragma warning restore 612, 618
         }

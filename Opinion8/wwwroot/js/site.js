@@ -4,7 +4,13 @@ import { connection } from "./connections.js";
 import PollCard from "./PollCard.js";
 
 class Poll {
+    static create(poll) {
+        console.log(poll)
+        const container = document.getElementById("poll-container");
+        container.innerHTML += `<poll-card class="max-w-xl w-full" data-poll-id="${poll.id}" question="${poll.question}" options='${JSON.stringify(poll.options)}' voters="${poll.voteCount}" has-voted="${poll.hasVoted ? "true" : ""}"></poll-card>`;
+    }
   static update(poll) {
+        console.log(poll)
     const pollElement = document.querySelector(`[data-poll-id="${poll.id}"]`);
     pollElement.update(poll);
   }
@@ -22,6 +28,7 @@ class Site {
   }
 
   start() {
+    connection.on("PollCreate", Poll.create);
     connection.on("PollUpdate", Poll.update);
     connection.on("PollDelete", Poll.delete);
   }

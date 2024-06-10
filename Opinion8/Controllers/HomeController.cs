@@ -10,7 +10,7 @@ public class HomeController(PollService pollService) : Controller
 {
     public IActionResult Index()
     {
-        return View(pollService.GetAll());
+        return View(pollService.GetAll(HttpContext.User));
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

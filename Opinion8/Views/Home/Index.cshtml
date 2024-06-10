@@ -16,7 +16,7 @@
             <div id="poll-container" class="flex flex-col gap-y-6 gap-x-2 items-center">
                 @foreach (Poll poll in Model)
                 {
-                    <poll-card class="max-w-xl w-full" data-poll-id="@poll.Id" question="@poll.Question" options="@JsonSerializer.Serialize(poll.Options.Select(option => option.Name), new JsonSerializerOptions{ ReferenceHandler = ReferenceHandler.IgnoreCycles})" voters="@poll.Voters"></poll-card>
+                    <poll-card class="max-w-xl w-full" data-poll-id="@poll.Id" question="@poll.Question" voters="@poll.VoteCount" has-voted="@poll.HasVoted" options="@JsonSerializer.Serialize(poll.Options.Select(option => new {option.Id, option.Name, option.Votes}).Distinct(), new JsonSerializerOptions{ ReferenceHandler = ReferenceHandler.IgnoreCycles, PropertyNamingPolicy = JsonNamingPolicy.CamelCase,})"></poll-card>
                 }
             </div>
         </div>

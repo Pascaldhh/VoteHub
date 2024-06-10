@@ -10,7 +10,11 @@ namespace Opinion8.Controllers;
 
 [Route("/[controller]")]
 [Authorize(Roles = "Admin")]
-public class AdminController(IHubContext<PollHub> pollContext, PollService pollService) : Controller
+public class AdminController(
+    IHubContext<PollHub> pollContext,
+    PollService pollService,
+    PollOptionService pollOptionService
+) : Controller
 {
     public IActionResult Index()
     {
@@ -20,13 +24,51 @@ public class AdminController(IHubContext<PollHub> pollContext, PollService pollS
     [HttpGet("[action]")]
     public IActionResult Create()
     {
-        return View();
+        ViewData["Title"] = "Create poll - Admin Page";
+        return View("CreateEdit");
     }
 
     [HttpPost("[action]")]
-    public IActionResult Create(Poll poll)
+    public async Task<IActionResult> Create(Poll poll)
     {
         pollService.Save(poll);
+
+        string? options = Request.Form["Options"];
+        pollOptionService.SaveFromString(poll, options);
+
+        await pollContext.Clients.All.SendAsync("PollCreate", poll);
+        return RedirectToAction("Index", "Admin");
+    }
+
+    [HttpGet("[action]/{pollId:int}")]
+    public IActionResult Edit(int pollId)
+    {
+        Poll? poll = pollService.GetById(pollId);
+        if (poll == null)
+        {
+            TempData["PollDeleteError"] = $"There was no Poll with id {pollId}";
+            return RedirectToAction("Index", "Admin");
+        }
+
+        ViewData["Title"] = "Edit poll - Admin Page";
+        return View("CreateEdit", poll);
+    }
+
+    [HttpPost("[action]/{pollId:int}")]
+    public async Task<IActionResult> Edit(int pollId, Poll updatedPoll)
+    {
+        Poll? poll = pollService.GetById(pollId);
+
+        if (poll == null)
+            return RedirectToAction("Index", "Admin");
+
+        poll.Question = updatedPoll.Question;
+
+        string? options = Request.Form["Options"];
+        pollOptionService.DeleteAllFromPoll(poll);
+        pollOptionService.SaveFromString(poll, options);
+
+        await pollContext.Clients.All.SendAsync("PollUpdate", poll);
         return RedirectToAction("Index", "Admin");
     }
 

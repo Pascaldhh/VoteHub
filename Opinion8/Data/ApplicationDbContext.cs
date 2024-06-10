@@ -10,6 +10,7 @@ public class ApplicationDbContext : IdentityDbContext
 {
     public DbSet<Poll> Polls { get; set; }
     public DbSet<PollOption> PollOptions { get; set; }
+    public DbSet<PollVote> PollVotes { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options) { }

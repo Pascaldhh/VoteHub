@@ -2,15 +2,13 @@
     <div class="dark:bg-white dark:text-black shadow-[0px_0px_10px_0px_rgb(0,0,0,.2)] px-6 py-4 rounded-md">
         <div class="flex flex-col">
             <h2><slot name="question"></slot></h2>
-            <ul>
-                <slot name="options"></slot>
-            </ul>
+            <slot name="options"></slot>
             <div class="flex items-end mt-2 text-gray-600">
                 <p>Total voters: <slot name="voters"></slot></p>
                 <div class="ml-auto">
                     @if (User.IsInRole("Voter") || User.IsInRole("Admin"))
                     {
-                        <button id="vote" class="bg-blue-600 text-white py-1 px-4 rounded hover:bg-blue-400 transition-colors">Vote</button>
+                        <button id="vote" class="bg-blue-600 text-white py-1 px-4 rounded hover:bg-blue-400 transition-colors disabled:bg-gray-300">Vote</button>
                     }
                     else
                     {

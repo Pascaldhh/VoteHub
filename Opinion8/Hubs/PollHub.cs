@@ -1,32 +1,41 @@
+using System.Collections.Concurrent;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
+using Opinion8.Interfaces;
 using Opinion8.Models;
 using Opinion8.Services;
 
 namespace Opinion8.Hubs;
 
-public class PollHub(PollService pollService) : Hub
+public class PollHub(PollVoteService voteService, IPollOptionService optionService) : Hub
 {
-    public async Task PollVote(int? id)
+    [Authorize]
+    public async Task PollVote(int? pollOptionId)
     {
-        if (id == null)
+        string? userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        PollOption? pollOption = optionService.GetById(pollOptionId ?? -1);
+        if (pollOption == null || string.IsNullOrEmpty(userId))
             return;
 
-        Poll? poll = pollService.GetById(id.Value);
-
-        if (poll == null)
-            return;
-
-        poll.Voters++;
-
-        await PollUpdate(poll);
+        voteService.Vote(pollOption.Id, userId);
+        PollService.SetUserVote(userId, pollOption.Poll);
+        await PollUpdate(pollOption.Poll);
     }
 
+    [Authorize]
     public async Task PollDelete(Poll poll) =>
         await Clients.All.SendAsync(nameof(PollDelete), poll);
 
+    [Authorize]
     public async Task PollUpdate(Poll poll)
     {
-        pollService.Save(poll);
-        await Clients.All.SendAsync(nameof(PollUpdate), poll);
+        poll.Options = poll.Options.OrderBy(option => option.Id);
+
+        await Clients.Caller.SendAsync(nameof(PollUpdate), poll);
+
+        poll.HasVoted = null;
+        await Clients.Others.SendAsync(nameof(PollUpdate), poll);
     }
 }

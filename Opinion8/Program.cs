@@ -1,16 +1,19 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Opinion8.Data;
-using Opinion8.Data.Seeders;
 using Opinion8.Hubs;
+using Opinion8.Interfaces;
 using Opinion8.Repositories;
 using Opinion8.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<PollRepository>();
+builder.Services.AddScoped<IPollOptionRepository, PollOptionRepository>();
+builder.Services.AddScoped<IPollOptionService, PollOptionService>();
+builder.Services.AddScoped<PollVoteRepository>();
+builder.Services.AddScoped<PollVoteService>();
+builder.Services.AddScoped<IPollRepository, PollRepository>();
 builder.Services.AddScoped<PollService>();
 builder
     .Services.AddSignalR()

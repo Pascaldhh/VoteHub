@@ -11,14 +11,14 @@ using Opinion8.Data;
 namespace Opinion8.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240529131118_Init")]
+    [Migration("20240609114251_Init")]
     partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -227,9 +227,6 @@ namespace Opinion8.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TotalVoters")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.ToTable("Polls");
@@ -248,6 +245,10 @@ namespace Opinion8.Data.Migrations
 
                     b.Property<int>("PollId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("VoterIds")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

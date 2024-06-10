@@ -11,4 +11,6 @@ public class PollOption
 
     public int PollId { get; set; }
     public Poll Poll { get; set; }
+
+    public IEnumerable<PollVote> Votes { get; set; } = new List<PollVote>();
 }

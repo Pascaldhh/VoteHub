@@ -14,24 +14,27 @@ namespace Opinion8.Data.Migrations
                 name: "Polls",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table
+                        .Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Question = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    TotalVoters = table.Column<int>(type: "INTEGER", nullable: false)
+                    Question = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Polls", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "PollOptions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table
+                        .Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    PollId = table.Column<int>(type: "INTEGER", nullable: false)
+                    PollId = table.Column<int>(type: "INTEGER", nullable: false),
+                    VoterIds = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,23 +44,24 @@ namespace Opinion8.Data.Migrations
                         column: x => x.PollId,
                         principalTable: "Polls",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_PollOptions_PollId",
                 table: "PollOptions",
-                column: "PollId");
+                column: "PollId"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "PollOptions");
+            migrationBuilder.DropTable(name: "PollOptions");
 
-            migrationBuilder.DropTable(
-                name: "Polls");
+            migrationBuilder.DropTable(name: "Polls");
         }
     }
 }
