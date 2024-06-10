@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Opinion8.Hubs;
+using Opinion8.Interfaces;
 using Opinion8.Models;
 using Opinion8.Services;
 
@@ -13,7 +14,7 @@ namespace Opinion8.Controllers;
 public class AdminController(
     IHubContext<PollHub> pollContext,
     PollService pollService,
-    PollOptionService pollOptionService
+    IPollOptionService pollOptionService
 ) : Controller
 {
     public IActionResult Index()
@@ -68,6 +69,7 @@ public class AdminController(
         pollOptionService.DeleteAllFromPoll(poll);
         pollOptionService.SaveFromString(poll, options);
 
+        poll.HasVoted = false;
         await pollContext.Clients.All.SendAsync("PollUpdate", poll);
         return RedirectToAction("Index", "Admin");
     }
