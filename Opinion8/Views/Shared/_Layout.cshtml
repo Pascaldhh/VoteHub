@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - Opinion8</title>
+    <link rel="stylesheet" id="tailwindcss" href="~/css/tailwind.css" asp-append-version="true"/>
+</head>
+<body class="dark:text-white dark:bg-gray-900">
+    @await Html.PartialAsync("_Header")
+
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+
+    <footer class="text-center">
+        <div class="container">
+            <p>&#169; Pascal de Haan - S1184100</p>
+        </div>
+    </footer>
+    <script src="~/lib/signalr/signalr.js"></script>
+    <script src="~/js/site.js" type="module" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
