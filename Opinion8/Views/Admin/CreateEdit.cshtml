@@ -1,0 +1,27 @@
+@model Poll?
+@{
+    bool isCreate = Model == null;
+}
+<section>
+    <div class="mx-auto max-w-2xl container">
+        <h1 class="text-center py-8">@(isCreate ? "Create a" : "Edit") poll</h1>
+        <form asp-controller="Admin" asp-action="@(isCreate ? "Create" : "Edit")" asp-all-route-data="null" method="post" class="flex flex-col gap-y-4">
+            <div class="flex flex-col gap-y-1">
+                <label asp-for="Question">@nameof(Model.Question): </label>
+                <input type="text" class="py-1.5 px-4 rounded text-black" placeholder="Type in the @nameof(Model.Question)" asp-for="Question">
+            </div>
+            <div class="flex flex-col gap-y-1">
+                <label asp-for="Options">@nameof(Model.Options): </label>
+                @if (Model == null)
+                {
+                    <input type="text" class="py-1.5 px-4 rounded text-black" placeholder="Type in the @nameof(Model.Options) (comma separated)" asp-for="Options">
+                }
+                else
+                {
+                    <input type="text" class="py-1.5 px-4 rounded text-black" placeholder="Type in the @nameof(Model.Options) (comma separated)" asp-for="Options" value="@string.Join(",", Model.Options.Select(o => o.Name))">
+                }
+            </div>
+            <button type="submit" id="create-edit" class="mt-6 @(isCreate ? "bg-green-600 hover:bg-green-500" : "bg-orange-600 hover:bg-orange-500") transition-colors px-4 py-1 rounded">@(isCreate ? "Create" : "Edit")</button>
+        </form>
+    </div>
+</section>
